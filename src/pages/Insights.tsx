@@ -4,6 +4,7 @@ import { Eyebrow } from '@/components/Eyebrow'
 import { Reveal, RevealGroup } from '@/components/Reveal'
 import { TextLink } from '@/components/TextLink'
 import { WorldMap } from '@/components/WorldMap'
+import { SectionBg } from '@/components/SectionBg'
 import { stats, founder } from '@/data/site'
 
 export default function Insights() {
@@ -78,15 +79,25 @@ export default function Insights() {
 
       {/* Testimonial */}
       <section className="bg-mist-200 section-y">
-        <div className="container-edge mx-auto max-w-[1600px]">
-          <div className="mx-auto max-w-4xl">
+        <div className="container-edge mx-auto grid max-w-[1600px] items-center gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+          <Reveal>
+            <SectionBg
+              src="/images/doris.webp"
+              srcSet="/images/doris@600.webp 600w, /images/doris.webp 900w"
+              alt="Doris Li, Founder of HAELO"
+              overlay="none"
+              rounded
+              className="aspect-[4/5] shadow-[0_40px_80px_-30px_rgba(31,46,50,0.45)]"
+            />
+          </Reveal>
+          <div>
             <Reveal>
               <Eyebrow tick>A word from our founder</Eyebrow>
             </Reveal>
-            <blockquote className="mt-10">
-              <AnimatedText text={`“${founder.quote}”`} as="p" by="line" className="text-3xl leading-snug text-ink sm:text-4xl" />
+            <blockquote className="mt-8">
+              <AnimatedText text={`“${founder.quote}”`} as="p" by="line" className="text-2xl leading-snug text-ink sm:text-3xl" />
               <Reveal delay={0.3}>
-                <footer className="mt-10 flex items-baseline gap-3">
+                <footer className="mt-8 flex items-baseline gap-3">
                   <cite className="text-base font-normal not-italic text-ink">{founder.name}</cite>
                   <span aria-hidden="true" className="h-px w-8 self-center bg-ember" />
                   <span className="text-sm font-light uppercase tracking-caps text-muted">{founder.role}</span>

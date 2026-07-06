@@ -5,6 +5,7 @@ import { useSmoothScroll } from '@/lib/useSmoothScroll'
 import { Nav } from '@/components/Nav'
 import { Footer } from '@/components/Footer'
 import { ScrollProgress } from '@/components/ScrollProgress'
+import { Preloader } from '@/components/Preloader'
 import Home from '@/pages/Home'
 import TalentAdvisory from '@/pages/TalentAdvisory'
 import TalentSearch from '@/pages/TalentSearch'
@@ -27,6 +28,7 @@ export default function App() {
 
   return (
     <>
+      <Preloader />
       <ScrollProgress />
       <Nav />
       <ScrollToTop />

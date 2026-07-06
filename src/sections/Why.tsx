@@ -2,6 +2,7 @@ import { whyTiles, differentiators } from '@/data/site'
 import { Eyebrow } from '@/components/Eyebrow'
 import { Reveal, RevealGroup } from '@/components/Reveal'
 import { TextLink } from '@/components/TextLink'
+import { ParallaxImage } from '@/components/ParallaxImage'
 
 export function Why() {
   return (
@@ -14,12 +15,7 @@ export function Why() {
         <RevealGroup className="mt-10 grid gap-4 md:grid-cols-2" stagger={0.15}>
           {whyTiles.map((tile) => (
             <Reveal key={tile.title} className="group relative aspect-[16/10] overflow-hidden rounded-sm">
-              <img
-                src={tile.image}
-                alt={tile.title}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-              />
+              <ParallaxImage src={tile.image} alt={tile.title} className="absolute inset-0" />
               <div className="absolute inset-0 bg-gradient-to-t from-teal/85 via-teal/20 to-transparent" />
               <div className="absolute inset-0 flex flex-col justify-end p-8 sm:p-10">
                 <span className="text-xs uppercase tracking-eyebrow text-mist/75">{tile.eyebrow}</span>

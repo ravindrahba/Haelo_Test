@@ -171,14 +171,14 @@ export function Hero() {
                   </div>
                 )}
 
-                {/* Headline — masked per-line reveal */}
-                <h1 className="font-display text-hero uppercase leading-[0.95] tracking-tight text-mist">
+                {/* Headline — masked per-line reveal with a premium gradient sheen */}
+                <h1 className="font-display text-hero font-medium uppercase leading-[0.95] tracking-tight">
                   {slide.lines.map((line, i) => (
                     <span key={`${slide.id}-line-${i}`} className="-mb-[0.09em] block overflow-hidden pb-[0.09em]">
                       <motion.span
                         custom={i}
                         variants={lineVariants}
-                        className={`block will-change-transform ${i === slide.accent ? 'text-ember' : ''}`}
+                        className={`block will-change-transform ${i === slide.accent ? 'text-sheen-ember' : 'text-sheen-mist'}`}
                       >
                         {line}
                       </motion.span>
@@ -271,7 +271,7 @@ export function Hero() {
                     type="button"
                     role="tab"
                     aria-selected={isActive}
-                    aria-label={`Go to slide ${i + 1} of ${heroSlides.length}: ${s.lead}`}
+                    aria-label={`Go to slide ${i + 1} of ${heroSlides.length}: ${s.lead ?? s.lines[0]}`}
                     onClick={() => goTo(i)}
                     className="group relative flex h-8 w-8 items-center justify-center"
                   >

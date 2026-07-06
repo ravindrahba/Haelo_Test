@@ -3,6 +3,7 @@ import { site, nav } from '@/data/site'
 import { Eyebrow } from './Eyebrow'
 import { Reveal } from './Reveal'
 import { Curve } from './Curve'
+import { HbaLogo } from './HbaLogo'
 
 /* Brand glyphs — lucide dropped its brand icons, so we inline these. */
 function XIcon({ className }: { className?: string }) {
@@ -54,6 +55,10 @@ export function Footer() {
           <div>
             <img src="/brand/logo-white.png" alt="HAELO by HBA" className="h-12 w-auto" draggable={false} />
             <p className="mt-6 max-w-sm text-mist/70">{site.tagline}</p>
+            <div className="mt-8 flex items-center gap-3">
+              <span className="text-[0.65rem] uppercase tracking-eyebrow text-mist/45">A part of</span>
+              <HbaLogo light className="h-5" />
+            </div>
           </div>
 
           <div>
@@ -84,7 +89,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col items-start justify-between gap-6 border-t border-mist/15 pt-8 sm:flex-row sm:items-center">
-          <p className="text-sm text-mist/55">HAELO by HBA © 2026. All Rights Reserved.</p>
+          <p className="text-sm text-mist/55">© 2026 HAELO. All Rights Reserved.</p>
           <div className="flex items-center gap-4">
             <a href="#" aria-label="LinkedIn" className="rounded-full border border-mist/20 p-2.5 transition-colors hover:border-ember hover:text-ember">
               <LinkedinIcon className="h-4 w-4" />

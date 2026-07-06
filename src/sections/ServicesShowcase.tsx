@@ -2,6 +2,7 @@ import { services } from '@/data/site'
 import { Eyebrow } from '@/components/Eyebrow'
 import { Reveal } from '@/components/Reveal'
 import { TextLink } from '@/components/TextLink'
+import { ParallaxImage } from '@/components/ParallaxImage'
 import { cn } from '@/lib/cn'
 
 /** Alternating image/text service blocks (Team Advisory / Talent Identification). */
@@ -20,12 +21,7 @@ export function ServicesShowcase() {
             )}
           >
             <div className={cn('relative min-h-[320px] overflow-hidden lg:min-h-[560px]', imageLeft ? 'lg:order-1' : 'lg:order-2')}>
-              <img
-                src={svc.image}
-                alt={svc.kicker}
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
+              <ParallaxImage src={svc.image} alt={svc.kicker} className="absolute inset-0" />
               <div className={cn('absolute inset-0', dark ? 'bg-teal/10' : 'bg-transparent')} />
             </div>
 

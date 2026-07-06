@@ -47,10 +47,10 @@ export function SectionBg({ src, srcSet, alt = '', overlay = 'teal', intensity =
   // continuous and can never snap.
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
 
-  // Small, GPU-friendly drift. Base scale 1.08 guarantees the translate never
-  // exposes the image edges.
-  const y = useTransform(scrollYProgress, [0, 1], ['-6%', '6%'])
-  const scale = useTransform(scrollYProgress, [0, 1], [1.08, 1.12])
+  // GPU-friendly drift + zoom. The generous base scale guarantees the vertical
+  // travel never exposes the image edges while giving a richer parallax feel.
+  const y = useTransform(scrollYProgress, [0, 1], ['-12%', '12%'])
+  const scale = useTransform(scrollYProgress, [0, 1], [1.14, 1.28])
 
   return (
     <div ref={ref} className={cx('relative', rounded && 'rounded-sm overflow-hidden', className)}>

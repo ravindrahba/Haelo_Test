@@ -3,6 +3,7 @@ import { Reveal } from '@/components/Reveal'
 import { AnimatedText } from '@/components/AnimatedText'
 import { SectionBg } from '@/components/SectionBg'
 import { TextLink } from '@/components/TextLink'
+import { HbaLogo } from '@/components/HbaLogo'
 
 export function Origin() {
   return (
@@ -21,9 +22,7 @@ export function Origin() {
           </Reveal>
           <Reveal delay={0.15}>
             <div className="mt-10 flex items-center gap-6">
-              <span className="font-display text-2xl tracking-[0.14em] text-teal">
-                by <span className="font-medium">HBA</span>
-              </span>
+              <HbaLogo withBy className="h-6" />
               <span className="h-8 w-px bg-teal/20" />
               <TextLink to="/about">Learn more</TextLink>
             </div>
