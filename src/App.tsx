@@ -6,11 +6,11 @@ import { Nav } from '@/components/Nav'
 import { Footer } from '@/components/Footer'
 import { ScrollProgress } from '@/components/ScrollProgress'
 import Home from '@/pages/Home'
+import TalentAdvisory from '@/pages/TalentAdvisory'
+import TalentSearch from '@/pages/TalentSearch'
+import Clients from '@/pages/Clients'
 import About from '@/pages/About'
-import Services from '@/pages/Services'
-import SectorsPage from '@/pages/SectorsPage'
-import Network from '@/pages/Network'
-import Careers from '@/pages/Careers'
+import Insights from '@/pages/Insights'
 import Contact from '@/pages/Contact'
 
 function ScrollToTop() {
@@ -40,11 +40,11 @@ export default function App() {
         >
           <Routes location={location}>
             <Route path="/" element={<Home />} />
+            <Route path="/talent-advisory" element={<TalentAdvisory />} />
+            <Route path="/talent-search" element={<TalentSearch />} />
+            <Route path="/clients" element={<Clients />} />
             <Route path="/about" element={<About />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/sectors" element={<SectorsPage />} />
-            <Route path="/network" element={<Network />} />
-            <Route path="/careers" element={<Careers />} />
+            <Route path="/insights" element={<Insights />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<Home />} />
           </Routes>

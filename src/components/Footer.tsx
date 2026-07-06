@@ -38,8 +38,7 @@ export function Footer() {
           <div className="border-b border-mist/15 pb-16">
             <Eyebrow tick>Contact us</Eyebrow>
             <h2 className="mt-6 max-w-4xl text-4xl sm:text-6xl">
-              Whether you&rsquo;re searching for talent or designing your future,{' '}
-              <span className="text-ember">HAELO can help.</span>
+              Let&rsquo;s build <span className="text-ember">what comes next.</span>
             </h2>
             <Link
               to="/contact"

@@ -163,11 +163,13 @@ export function Hero() {
             <AnimatePresence mode="wait" initial={true}>
               <motion.div key={slide.id} initial="hidden" animate="visible" exit="exit" className="max-w-4xl">
                 {/* Kicker */}
-                <div className="mb-6 overflow-hidden md:mb-8">
-                  <motion.div variants={softVariants} custom={0.05}>
-                    <Eyebrow tick>{slide.lead}</Eyebrow>
-                  </motion.div>
-                </div>
+                {slide.lead && (
+                  <div className="mb-6 overflow-hidden md:mb-8">
+                    <motion.div variants={softVariants} custom={0.05}>
+                      <Eyebrow tick>{slide.lead}</Eyebrow>
+                    </motion.div>
+                  </div>
+                )}
 
                 {/* Headline — masked per-line reveal */}
                 <h1 className="font-display text-hero uppercase leading-[0.95] tracking-tight text-mist">

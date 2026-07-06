@@ -7,11 +7,11 @@ mkdirSync(OUT, { recursive: true })
 
 const routes = [
   ['home', '/'],
+  ['talent-advisory', '/talent-advisory'],
+  ['talent-search', '/talent-search'],
+  ['clients', '/clients'],
   ['about', '/about'],
-  ['services', '/services'],
-  ['sectors', '/sectors'],
-  ['network', '/network'],
-  ['careers', '/careers'],
+  ['insights', '/insights'],
   ['contact', '/contact'],
 ]
 
@@ -48,7 +48,8 @@ for (const [vp, w, h] of viewports) {
   const ctx = await browser.newContext({ viewport: { width: w, height: h }, deviceScaleFactor: 1, reducedMotion: 'reduce' })
   const page = await ctx.newPage()
   for (const [name, path] of routes) {
-    await page.goto(BASE + path, { waitUntil: 'load', timeout: 30000 })
+    const url = BASE + path + (path.includes('?') ? '&' : '?') + 'static=1'
+    await page.goto(url, { waitUntil: 'load', timeout: 30000 })
     await page.waitForTimeout(600)
     await autoScroll(page)
     await page.waitForTimeout(500)

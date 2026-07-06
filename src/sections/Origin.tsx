@@ -10,7 +10,7 @@ export function Origin() {
       <div className="container-edge mx-auto grid max-w-[1600px] items-center gap-14 lg:grid-cols-2">
         <div>
           <Reveal>
-            <Eyebrow tick>Origin</Eyebrow>
+            <Eyebrow tick>Born from HBA</Eyebrow>
           </Reveal>
           <AnimatedText as="h2" by="word" text="Born from design, built for creative organisations." className="mt-6 text-4xl sm:text-6xl" />
           <Reveal delay={0.1}>

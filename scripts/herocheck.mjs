@@ -1,0 +1,10 @@
+import { chromium } from 'playwright'
+const b = await chromium.launch()
+const ctx = await b.newContext({ viewport: { width: 1440, height: 900 } })
+const p = await ctx.newPage()
+await p.goto('http://localhost:5173/?static=1', { waitUntil: 'load' })
+await p.waitForTimeout(900)
+await p.screenshot({ path: 'shots/hero-check.png' })
+const h1 = await p.$eval('h1', (e) => e.innerText)
+console.log('H1:', JSON.stringify(h1))
+await b.close()

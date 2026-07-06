@@ -44,7 +44,7 @@ export function ServicesShowcase() {
               </Reveal>
               <Reveal delay={0.16}>
                 <div className="mt-10">
-                  <TextLink to="/services" light={dark}>
+                  <TextLink to={svc.to} light={dark}>
                     Learn more
                   </TextLink>
                 </div>

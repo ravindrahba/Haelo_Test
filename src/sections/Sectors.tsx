@@ -20,7 +20,7 @@ export function Sectors({ withHeader = true }: { withHeader?: boolean }) {
           <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
             <div>
               <Reveal>
-                <Eyebrow tick>Our Clients</Eyebrow>
+                <Eyebrow tick>Built for the design economy</Eyebrow>
               </Reveal>
               <AnimatedText
                 as="h2"
@@ -30,7 +30,7 @@ export function Sectors({ withHeader = true }: { withHeader?: boolean }) {
               />
             </div>
             <Reveal delay={0.1}>
-              <TextLink to="/sectors">Explore</TextLink>
+              <TextLink to="/clients">Explore</TextLink>
             </Reveal>
           </div>
         )}
