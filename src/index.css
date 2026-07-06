@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+
+/* -------------------------------------------------------------------
+   HAELO brand typeface — Source Sans Variable (approved, self-hosted)
+------------------------------------------------------------------- */
+@font-face {
+  font-family: 'Source Sans Variable';
+  src: url('/fonts/SourceSansVariable-Roman.otf') format('opentype');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Source Sans Variable';
+  src: url('/fonts/SourceSansVariable-Italic.otf') format('opentype');
+  font-weight: 200 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* -------------------------------------------------------------------
+   HAELO by HBA — Design tokens
+   Midnight Teal #1F2E32 · Starlight Mist #F8F6F2 · Stellar Ember #F2AE6F
+------------------------------------------------------------------- */
+@theme {
+  --color-teal: #1f2e32;
+  --color-teal-800: #263a3f;
+  --color-teal-700: #32494f;
+  --color-teal-600: #46626a;
+  --color-mist: #f8f6f2;
+  --color-mist-200: #efece5;
+  --color-mist-300: #e4ded3;
+  --color-ember: #f2ae6f;
+  --color-ember-600: #e79753;
+  --color-ink: #1b2529;
+  --color-muted: #6b7a7e;
+
+  /* One approved family for everything; the editorial feel comes from weight + tracking */
+  --font-display: 'Source Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Source Sans Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --shadow-soft: 0 30px 60px -20px rgba(31, 46, 50, 0.25);
+  --shadow-lift: 0 40px 80px -30px rgba(31, 46, 50, 0.45);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-mist);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Headings in the same family, thin and airy — the hospitality/editorial voice */
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  p { margin: 0; }
+
+  ::selection {
+    background: var(--color-ember);
+    color: var(--color-teal);
+  }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--color-mist-200); }
+  ::-webkit-scrollbar-thumb { background: var(--color-teal-600); border-radius: 10px; }
+}
+
+@layer utilities {
+  .tracking-eyebrow { letter-spacing: 0.28em; }
+  .tracking-caps { letter-spacing: 0.06em; }
+
+  .text-display { font-size: clamp(2.75rem, 6vw + 1rem, 6.5rem); line-height: 1.0; font-weight: 250; }
+  .text-hero { font-size: clamp(2.5rem, 4.4vw + 1rem, 5rem); line-height: 1.04; font-weight: 250; }
+
+  .section-y { padding-block: clamp(5rem, 10vw, 9rem); }
+  .container-edge { padding-inline: clamp(1.25rem, 5vw, 5rem); }
+
+  .link-underline {
+    background-image: linear-gradient(var(--color-ember), var(--color-ember));
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.5s var(--ease-out-expo);
+  }
+  .link-underline:hover { background-size: 100% 1.5px; }
+
+  .mesh-teal {
+    background:
+      radial-gradient(60% 60% at 20% 10%, rgba(242, 174, 111, 0.14), transparent 60%),
+      radial-gradient(50% 50% at 90% 30%, rgba(70, 98, 106, 0.5), transparent 55%),
+      var(--color-teal);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
