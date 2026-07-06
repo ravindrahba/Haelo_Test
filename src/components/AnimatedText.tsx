@@ -26,7 +26,7 @@ const DEFAULT_STAGGER: Record<NonNullable<AnimatedTextProps['by']>, number> = {
 }
 
 const unitVariants: Variants = {
-  hidden: { y: '0.9em', opacity: 0 },
+  hidden: { y: '0.4em', opacity: 0 },
   visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: EASE } },
 }
 
@@ -71,11 +71,9 @@ export function AnimatedText({ text, as = 'h2', by = 'word', className, delay = 
     <MotionTag className={className} variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once, margin: '-10%' }}>
       {by === 'line' &&
         lines.map((line, li) => (
-          <span key={`${line}-${li}`} className="block overflow-hidden">
-            <motion.span className="block will-change-transform" variants={unitVariants}>
-              {line}
-            </motion.span>
-          </span>
+          <motion.span key={`${line}-${li}`} className="block will-change-transform" variants={unitVariants}>
+            {line}
+          </motion.span>
         ))}
 
       {by === 'word' &&
@@ -86,11 +84,9 @@ export function AnimatedText({ text, as = 'h2', by = 'word', className, delay = 
               {li > 0 && <br />}
               {words.map((word, wi) => (
                 <Fragment key={`${word}-${wi}`}>
-                  <span className="inline-block overflow-hidden align-bottom">
-                    <motion.span className="inline-block will-change-transform" variants={unitVariants}>
-                      {word}
-                    </motion.span>
-                  </span>
+                  <motion.span className="inline-block will-change-transform" variants={unitVariants}>
+                    {word}
+                  </motion.span>
                   {wi < words.length - 1 ? ' ' : null}
                 </Fragment>
               ))}
@@ -108,11 +104,9 @@ export function AnimatedText({ text, as = 'h2', by = 'word', className, delay = 
                 <Fragment key={`${word}-${wi}`}>
                   <span className="inline-block whitespace-nowrap">
                     {Array.from(word).map((char, ci) => (
-                      <span key={`${char}-${ci}`} className="inline-block overflow-hidden align-bottom">
-                        <motion.span className="inline-block will-change-transform" variants={unitVariants}>
-                          {char}
-                        </motion.span>
-                      </span>
+                      <motion.span key={`${char}-${ci}`} className="inline-block will-change-transform" variants={unitVariants}>
+                        {char}
+                      </motion.span>
                     ))}
                   </span>
                   {wi < words.length - 1 ? ' ' : null}

@@ -197,6 +197,16 @@ export const founder = {
   role: 'Founder, HAELO',
 }
 
+// The Team — "We are Embedded Talent Advisors" (deck p.11)
+export const team = [
+  { name: 'Doris Li', role: 'HR & Talent Acquisition Director', location: 'Singapore', photo: '/images/team/doris.webp' },
+  { name: 'Viola Zhang', role: 'Talent Acquisition Manager', location: 'Hong Kong', photo: '/images/team/viola.webp' },
+  { name: 'Emma Hallend', role: 'Senior Talent Acquisition Specialist', location: 'Japan', photo: '/images/team/emma.webp' },
+  { name: 'Katherine Costa', role: 'Senior Talent Acquisition Specialist', location: 'Italy', photo: '/images/team/katherine.webp' },
+  { name: 'Czarina Laya', role: 'Talent Acquisition Specialist', location: 'Thailand', photo: '/images/team/czarina.webp' },
+  { name: 'Ema Volkova', role: 'Talent Acquisition Coordinator', location: 'Spain', photo: '/images/team/ema.webp' },
+]
+
 export const cities = [
   { name: 'Hong Kong', x: 82.5, y: 45 },
   { name: 'Singapore', x: 79, y: 58 },

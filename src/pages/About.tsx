@@ -3,7 +3,7 @@ import { AnimatedText } from '@/components/AnimatedText'
 import { Eyebrow } from '@/components/Eyebrow'
 import { Reveal, RevealGroup } from '@/components/Reveal'
 import { SectionBg } from '@/components/SectionBg'
-import { founder } from '@/data/site'
+import { founder, team } from '@/data/site'
 
 const twoThings = [
   { title: 'Creative Talent', body: 'How exceptional people think, grow and choose the opportunities worth their time.' },
@@ -100,23 +100,51 @@ export default function About() {
         </div>
       </section>
 
-      {/* Embedded talent advisors */}
+      {/* Embedded talent advisors — the team */}
       <section className="bg-mist section-y">
         <div className="container-edge mx-auto max-w-[1600px]">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1.4fr] lg:items-end">
+          <div className="grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:items-end">
             <div>
               <Reveal>
-                <Eyebrow tick>Our team</Eyebrow>
+                <Eyebrow tick>The Team</Eyebrow>
               </Reveal>
-              <AnimatedText text="Embedded talent advisors." as="h2" by="word" className="mt-6 text-display text-ink" />
+              <AnimatedText text="We are embedded talent advisors." as="h2" by="word" className="mt-6 text-display text-ink" />
             </div>
             <Reveal delay={0.15}>
               <p className="max-w-xl text-lg font-light leading-relaxed text-muted">
-                The HAELO team combines talent expertise with first-hand experience in design, architecture and creative businesses. We
-                operate with an in-house advisory mindset — building long-term partnerships rather than transactional placements.
+                The HAELO team is built on an in-house advisory model, combining talent expertise with first-hand experience in design,
+                architecture and creative businesses.
               </p>
             </Reveal>
           </div>
+
+          <Reveal className="mt-12 flex items-center gap-4 text-sm uppercase tracking-caps text-muted">
+            <span>Talent Advisors</span>
+            <span className="text-ember">+</span>
+            <span>Creative Practitioners</span>
+          </Reveal>
+
+          <RevealGroup className="mt-10 grid grid-cols-2 gap-x-8 gap-y-12 sm:grid-cols-3 lg:grid-cols-6" stagger={0.08}>
+            {team.map((m) => (
+              <Reveal key={m.name} className="group">
+                <div className="relative aspect-square overflow-hidden rounded-full bg-mist-200">
+                  <img
+                    src={m.photo}
+                    alt={m.name}
+                    loading="lazy"
+                    draggable={false}
+                    className="h-full w-full object-cover grayscale transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:grayscale-0 group-hover:scale-105"
+                  />
+                </div>
+                <h3 className="mt-5 font-display text-lg text-teal">{m.name}</h3>
+                <p className="mt-1 text-sm font-light leading-snug text-muted">{m.role}</p>
+                <p className="mt-2 flex items-center gap-2 text-xs uppercase tracking-caps text-ember">
+                  <span className="h-px w-3 bg-ember" />
+                  {m.location}
+                </p>
+              </Reveal>
+            ))}
+          </RevealGroup>
         </div>
       </section>
     </main>

@@ -26,8 +26,10 @@ export function ParallaxImage({
   const scale = useTransform(scrollYProgress, [0, 1], [1.12, 1.3])
   const y = useTransform(scrollYProgress, [0, 1], ['-8%', '8%'])
 
+  // NB: the caller supplies positioning + sizing (e.g. `absolute inset-0`);
+  // we only add clipping here so the two never fight over `position`.
   return (
-    <div ref={ref} className={cn('relative overflow-hidden', className)}>
+    <div ref={ref} className={cn('overflow-hidden', className)}>
       <motion.img
         src={src}
         srcSet={srcSet}

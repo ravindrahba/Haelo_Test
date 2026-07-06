@@ -1,11 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   AnimatePresence,
+  animate,
   motion,
   useMotionValue,
   useReducedMotion,
   useScroll,
   useTransform,
+  type AnimationPlaybackControls,
   type Variants,
 } from 'framer-motion'
 import { ArrowDown } from 'lucide-react'
@@ -25,41 +27,31 @@ export function Hero() {
   const [active, setActive] = useState(0)
   const slide: Slide = heroSlides[active]
 
-  /* Autoplay — rAF-driven so the progress ring pauses precisely on hover */
+  /* Autoplay — one smooth linear fill per slide via a single tween that we can
+     pause/resume on hover. Keying the effect on `active` gives a clean restart
+     each slide, so the ring never stutters or jumps. */
   const progress = useMotionValue(0)
+  const controlsRef = useRef<AnimationPlaybackControls | null>(null)
 
-  const goTo = useCallback(
-    (index: number) => {
-      progress.set(0)
-      setActive(((index % heroSlides.length) + heroSlides.length) % heroSlides.length)
-    },
-    [progress],
-  )
+  const goTo = useCallback((index: number) => {
+    setActive(((index % heroSlides.length) + heroSlides.length) % heroSlides.length)
+  }, [])
 
   useEffect(() => {
-    if (reduceMotion) return
-
-    let raf = 0
-    let last: number | null = null
-
-    const loop = (now: number) => {
-      if (last !== null && !pausedRef.current) {
-        const delta = Math.min(now - last, 100)
-        const next = progress.get() + delta / SLIDE_DURATION_MS
-        if (next >= 1) {
-          progress.set(0)
-          setActive((i) => (i + 1) % heroSlides.length)
-        } else {
-          progress.set(next)
-        }
-      }
-      last = now
-      raf = requestAnimationFrame(loop)
+    if (reduceMotion) {
+      progress.set(1)
+      return
     }
-
-    raf = requestAnimationFrame(loop)
-    return () => cancelAnimationFrame(raf)
-  }, [progress, reduceMotion])
+    progress.set(0)
+    const controls = animate(progress, 1, {
+      duration: SLIDE_DURATION_MS / 1000,
+      ease: 'linear',
+      onComplete: () => setActive((i) => (i + 1) % heroSlides.length),
+    })
+    controlsRef.current = controls
+    if (pausedRef.current) controls.pause()
+    return () => controls.stop()
+  }, [active, reduceMotion, progress])
 
   /* Scroll parallax */
   const { scrollYProgress } = useScroll({
@@ -117,9 +109,11 @@ export function Hero() {
       className="relative min-h-[100svh] overflow-hidden bg-teal"
       onMouseEnter={() => {
         pausedRef.current = true
+        controlsRef.current?.pause()
       }}
       onMouseLeave={() => {
         pausedRef.current = false
+        controlsRef.current?.play()
       }}
     >
       {/* Background — parallax wrapper > crossfading Ken Burns slides */}
