@@ -123,7 +123,7 @@ export function Hero() {
                           variants={softVariants}
                           initial="hide"
                           animate={isActive ? 'show' : 'hide'}
-                          className={`mx-auto mt-6 max-w-md text-center font-sans text-base font-light leading-relaxed text-mist md:mt-8 md:max-w-none md:text-lg ${
+                          className={`mx-auto mt-6 max-w-md text-center font-sans text-base font-light leading-relaxed tracking-[0.045em] text-mist md:mt-8 md:max-w-none md:text-lg ${
                             alignRight ? 'md:ml-auto' : ''
                           }`}
                         >
