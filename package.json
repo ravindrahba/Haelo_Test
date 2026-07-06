@@ -17,7 +17,8 @@
     "lucide-react": "^1.23.0",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "react-router-dom": "^7.18.1"
+    "react-router-dom": "^7.18.1",
+    "swiper": "^14.0.1"
   },
   "devDependencies": {
     "@fontsource-variable/fraunces": "^5.2.9",

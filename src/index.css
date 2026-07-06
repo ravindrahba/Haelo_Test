@@ -62,7 +62,7 @@
     background: var(--color-mist);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-weight: 400;
+    font-weight: 340;
     font-size: 1.0625rem;
     line-height: 1.6;
     overflow-x: hidden;
@@ -71,7 +71,7 @@
   /* Headings in the same family, thin and airy — the hospitality/editorial voice */
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 300;
+    font-weight: 260;
     line-height: 1.05;
     letter-spacing: -0.005em;
     text-wrap: balance;
@@ -94,8 +94,8 @@
   .tracking-eyebrow { letter-spacing: 0.28em; }
   .tracking-caps { letter-spacing: 0.06em; }
 
-  .text-display { font-size: clamp(2.75rem, 6vw + 1rem, 6.5rem); line-height: 1.0; font-weight: 250; }
-  .text-hero { font-size: clamp(2.5rem, 4.4vw + 1rem, 5rem); line-height: 1.04; font-weight: 250; }
+  .text-display { font-size: clamp(2.75rem, 6vw + 1rem, 6.5rem); line-height: 1.0; font-weight: 230; }
+  .text-hero { font-size: clamp(2.5rem, 4.4vw + 1rem, 5rem); line-height: 1.04; font-weight: 230; }
 
   .section-y { padding-block: clamp(5rem, 10vw, 9rem); }
   .container-edge { padding-inline: clamp(1.25rem, 5vw, 5rem); }

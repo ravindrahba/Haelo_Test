@@ -54,7 +54,7 @@ export function Footer() {
         <div className="grid gap-12 pt-14 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <img src="/brand/logo-white.png" alt="HAELO by HBA" className="h-12 w-auto" draggable={false} />
-            <p className="mt-6 max-w-sm text-mist/70">{site.tagline}</p>
+            <p className="mt-6 max-w-sm font-light text-mist/70">{site.tagline}</p>
             <div className="mt-8 flex items-center gap-3">
               <span className="text-[0.65rem] uppercase tracking-eyebrow text-mist/45">A part of</span>
               <HbaLogo light className="h-5" />

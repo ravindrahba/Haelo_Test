@@ -1,0 +1,12 @@
+import { chromium } from 'playwright'
+const b = await chromium.launch()
+const ctx = await b.newContext({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' })
+const p = await ctx.newPage()
+await p.goto('http://localhost:5173/about?static=1', { waitUntil: 'load' })
+await p.waitForTimeout(1500)
+await p.evaluate(async () => { for (let y=0;y<document.body.scrollHeight;y+=700){window.scrollTo(0,y);await new Promise(r=>setTimeout(r,80))} window.scrollTo(0,0)
+  document.querySelectorAll('*').forEach(el=>{const s=el.style;if(!s)return;if(s.opacity!==''&&parseFloat(s.opacity)<1)s.opacity='1';if(s.transform&&/translate|matrix/.test(s.transform))s.transform='none'}) })
+await p.waitForTimeout(500)
+await p.screenshot({ path: 'shots/about-desktop.png', fullPage: true })
+console.log('about captured')
+await b.close()

@@ -24,13 +24,17 @@ export const nav = [
   { label: 'Insights', to: '/insights' },
 ] as const
 
+// A hero headline line. `nudge` is a horizontal offset in em, transcribed from
+// the original design so the staggered arrangement is preserved. Sign follows
+// the slide's text alignment (right-aligned slides indent left → negative).
+export type HeroLine = { text: string; nudge?: number; bold?: boolean; ember?: boolean }
+
 export type HeroSlide = {
   id: string
   image: string
-  lead?: string
-  lines: string[]
-  accent: number
-  caption?: string
+  align: 'left' | 'right'
+  lines: HeroLine[]
+  caption?: string[]
   bullets?: string[]
 }
 
@@ -38,24 +42,43 @@ export const heroSlides: HeroSlide[] = [
   {
     id: 'future',
     image: '/images/hero-1.webp',
-    lines: ['HAELO designs the teams', 'that design', 'the future.'],
-    accent: 2,
-    caption:
-      "Born from HBA's global design legacy, HAELO helps ambitious organisations build the teams behind exceptional brands, destinations and experiences.",
+    align: 'right',
+    lines: [
+      { text: 'HAELO', nudge: -4.37 },
+      { text: 'DESIGNS THE TEAMS', nudge: 0, bold: true },
+      { text: 'THAT DESIGN', nudge: -2.22, bold: true, ember: true },
+      { text: 'THE FUTURE.', nudge: -1.16, bold: true, ember: true },
+    ],
+    caption: [
+      "Born from HBA's global design legacy, HAELO helps",
+      'ambitious organisations build the teams behind exceptional',
+      'brands, destinations and experiences.',
+    ],
   },
   {
     id: 'engage',
     image: '/images/hero-2.webp',
-    lines: ['We understand what', 'success requires — and', 'partner with you', 'to achieve it.'],
-    accent: 3,
+    align: 'left',
+    lines: [
+      { text: 'NO MATTER', nudge: 0.9 },
+      { text: 'HOW YOU ENGAGE WITH HAELO,', nudge: 0, bold: true },
+      { text: 'WE UNDERSTAND', nudge: 1.15 },
+      { text: 'WHAT SUCCESS REQUIRES AND', nudge: 0 },
+      { text: 'PARTNER WITH YOU TO', nudge: 1.16 },
+      { text: 'ACHIEVE IT.', nudge: 3.83, bold: true, ember: true },
+    ],
     bullets: ['Defining direction', 'Aligning leadership', 'Shaping teams over time'],
   },
   {
     id: 'origin',
     image: '/images/hero-3.webp',
-    lines: ['Born from design,', 'built for creative', 'organisations.'],
-    accent: 1,
-    caption: 'We understand how creative organisations operate because we have helped build them from within.',
+    align: 'left',
+    lines: [
+      { text: 'BORN FROM DESIGN,', nudge: 0 },
+      { text: 'BUILT FOR CREATIVE', nudge: 0, bold: true, ember: true },
+      { text: 'ORGANISATIONS.', nudge: 0, bold: true, ember: true },
+    ],
+    caption: ['We understand how creative organisations operate', 'because we have helped build them from within.'],
   },
 ]
 

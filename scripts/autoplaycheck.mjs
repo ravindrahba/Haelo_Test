@@ -1,0 +1,18 @@
+import { chromium } from 'playwright'
+const b = await chromium.launch()
+const ctx = await b.newContext({ viewport: { width: 1280, height: 800 } })
+const p = await ctx.newPage()
+await p.goto('http://localhost:5173/', { waitUntil: 'load' })
+await p.waitForTimeout(2500)
+const idx = () => p.$$eval('[role="tab"]', ts => ts.findIndex(t => t.getAttribute('aria-selected') === 'true'))
+const hidden = await p.evaluate(() => document.visibilityState)
+const a = await idx()
+await p.waitForTimeout(7500)
+const b1 = await idx()
+await p.waitForTimeout(7500)
+const c = await idx()
+// ring offset sample
+const ring = async () => p.$eval('[role="tab"][aria-selected="true"] circle:last-of-type', c => getComputedStyle(c).strokeDashoffset).catch(()=>null)
+const r1 = await ring(); await p.waitForTimeout(2000); const r2 = await ring()
+console.log(JSON.stringify({ visibility: hidden, idxSeq: [a, b1, c], advances: a!==b1||b1!==c, ringStart:r1, ringLater:r2 }))
+await b.close()
