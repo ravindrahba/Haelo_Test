@@ -116,11 +116,11 @@ export function Preloader({ onComplete }: { onComplete?: () => void }) {
           role="status"
           aria-label="HAELO is loading"
           className="mesh-teal fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
-          exit={{ opacity: 0, transition: { duration: reducedMotion ? 0.4 : 3.5, ease: 'easeInOut' } }}
+          exit={{ opacity: 0, transition: { duration: reducedMotion ? 0.4 : 2, ease: 'easeInOut' } }}
         >
           <motion.div
             className="flex flex-col items-center"
-            exit={{ opacity: 0, scale: reducedMotion ? 1 : 1.03, transition: { duration: reducedMotion ? 0.3 : 2.8, ease: 'easeInOut' } }}
+            exit={{ opacity: 0, scale: reducedMotion ? 1 : 1.03, transition: { duration: reducedMotion ? 0.3 : 1.6, ease: 'easeInOut' } }}
           >
             <motion.img
               src="/brand/logo-white.png"
