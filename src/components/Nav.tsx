@@ -144,8 +144,13 @@ export function Nav() {
 
   return (
     <>
+      {/* Sits above the menu overlay (z-55). The header is a positioned element
+          with a z-index, so it forms a stacking context: the burger's own
+          z-[60] is scoped inside it and cannot lift above the overlay on its
+          own. Without this the open menu had no visible close control
+          (feedback PDF p12). */}
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-500 ${
+        className={`fixed inset-x-0 top-0 z-[60] transition-[background-color,box-shadow,backdrop-filter] duration-500 ${
           barSolid ? 'bg-mist/85 shadow-[0_1px_0_0_rgba(31,46,50,0.08)] backdrop-blur-xl' : 'bg-transparent'
         }`}
       >

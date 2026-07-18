@@ -20,7 +20,9 @@ export function Reveal({ children, className, delay = 0, y = 28, once = true, as
     show: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1], delay },
+      // Long, soft entrance — the fade should read as part of the scroll, not
+      // an event that happens after arriving.
+      transition: { duration: 1.4, ease: [0.16, 1, 0.3, 1], delay },
     },
   }
 
@@ -30,7 +32,14 @@ export function Reveal({ children, className, delay = 0, y = 28, once = true, as
       variants={variants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once, margin: '-12% 0px -12% 0px' }}
+      // Zero inset: trigger the instant the element's edge crosses the fold.
+      // The old -12% inset meant content travelled 12% of the screen while
+      // still invisible, then popped on — the "suddenly appears then fades"
+      // complaint. Note the hidden state's translateY(y) already shifts the
+      // observed box down by ~y px, so even at zero margin the animation
+      // starts a beat after the layout edge appears — any negative margin on
+      // top of that reads as dead travel.
+      viewport={{ once }}
     >
       {children}
     </MotionTag>
@@ -54,7 +63,7 @@ export function RevealGroup({
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once, margin: '-10% 0px -10% 0px' }}
+      viewport={{ once }}
       variants={{ show: { transition: { staggerChildren: stagger } } }}
     >
       {children}

@@ -8,26 +8,35 @@ export const site = {
   intro:
     "Born from HBA's global design legacy, HAELO helps ambitious organisations build the teams behind exceptional brands, destinations and experiences.",
   contact: {
-    company: 'HAELO LIMITED',
-    address: ['Units 1, 10-13, 27, 1/F K11 Atelier', "King's Road, 728 King's Road", 'Quarry Bay, Hong Kong'],
+    // "KEEP JUST AS HAELO" (feedback PDF p41) — was "HAELO LIMITED".
+    company: 'HAELO',
+    // New registered address (feedback PDF p11) — was the Quarry Bay, Hong Kong office.
+    address: ['HAELO PTE LTD.', '135 Cecil Street', 'Singapore'],
     phone: '+65 4508 6028',
     email: 'info@haelopeople.com',
   },
 } as const
 
+// Insights is hidden from the menu for now (feedback PDF p42: "Remove insight
+// Page for now. Hide it from the menu."). The route still resolves, so nothing
+// is lost — put the entry back here to restore it everywhere.
 export const nav = [
   { label: 'Home', to: '/' },
   { label: 'Talent Advisory', to: '/talent-advisory' },
   { label: 'Talent Search', to: '/talent-search' },
   { label: 'Clients', to: '/clients' },
   { label: 'About', to: '/about' },
-  { label: 'Insights', to: '/insights' },
 ] as const
 
 // A hero headline line. `nudge` is a horizontal offset in em, transcribed from
-// the original design so the staggered arrangement is preserved. Sign follows
-// the slide's text alignment (right-aligned slides indent left → negative).
-export type HeroLine = { text: string; nudge?: number; bold?: boolean; ember?: boolean }
+// the original design (Archive/HAELO Landing Page - TEXT.pdf) so the staggered
+// arrangement is preserved. Sign follows the slide's text alignment
+// (right-aligned slides indent left → negative).
+//
+// Type spec, measured from that same source at a 1920px canvas:
+//   headline  94.36px / 72.8px leading   HAELO = Light, remainder = Regular
+//   caption   30.95px / 37.15px leading  Light
+export type HeroLine = { text: string; nudge?: number; weight?: 'light' | 'regular'; ember?: boolean }
 
 export type HeroSlide = {
   id: string
@@ -36,6 +45,15 @@ export type HeroSlide = {
   lines: HeroLine[]
   caption?: string[]
   bullets?: string[]
+  /** Headline size in px on the original 1920 canvas. Each original slide was
+      sized independently (slide 1 = 94.36, slide 2 = 82 because it has more,
+      longer lines). Default 94.36. */
+  sizePx?: number
+  /** Headline line-height as a ratio, transcribed from the original. Default 0.771. */
+  lh?: number
+  /** CSS object-position for the portrait crop on mobile, so the subject's face
+      stays in frame (desktop always shows the full 16:9 and stays centred). */
+  focusMobile?: string
 }
 
 export const heroSlides: HeroSlide[] = [
@@ -43,11 +61,14 @@ export const heroSlides: HeroSlide[] = [
     id: 'future',
     image: '/images/hero-1.webp',
     align: 'right',
+    sizePx: 94.36,
+    lh: 0.771,
+    focusMobile: '27% 50%',
     lines: [
-      { text: 'HAELO', nudge: -4.37 },
-      { text: 'DESIGNS THE TEAMS', nudge: 0, bold: true },
-      { text: 'THAT DESIGN', nudge: -2.22, bold: true, ember: true },
-      { text: 'THE FUTURE.', nudge: -1.16, bold: true, ember: true },
+      { text: 'HAELO', nudge: -4.331, weight: 'light' },
+      { text: 'DESIGNS THE TEAMS', nudge: 0, weight: 'regular' },
+      { text: 'THAT DESIGN', nudge: -2.159, weight: 'regular', ember: true },
+      { text: 'THE FUTURE', nudge: -1.156, weight: 'regular', ember: true },
     ],
     caption: [
       "Born from HBA's global design legacy, HAELO helps",
@@ -59,24 +80,34 @@ export const heroSlides: HeroSlide[] = [
     id: 'engage',
     image: '/images/hero-2.webp',
     align: 'left',
+    // 82px / 0.846 leading — measured from Archive/HAELO Landing Page-1.pdf.
+    sizePx: 82,
+    lh: 0.846,
+    focusMobile: '72% 50%',
     lines: [
-      { text: 'NO MATTER', nudge: 0.9 },
-      { text: 'HOW YOU ENGAGE WITH HAELO,', nudge: 0, bold: true },
-      { text: 'WE UNDERSTAND', nudge: 1.15 },
-      { text: 'WHAT SUCCESS REQUIRES AND', nudge: 0 },
-      { text: 'PARTNER WITH YOU TO', nudge: 1.16 },
-      { text: 'ACHIEVE IT.', nudge: 3.83, bold: true, ember: true },
+      { text: 'NO MATTER', nudge: 0.899, weight: 'light' },
+      { text: 'HOW YOU ENGAGE WITH HAELO,', nudge: 0.037, weight: 'regular' },
+      { text: 'WE UNDERSTAND', nudge: 1.143, weight: 'light' },
+      { text: 'WHAT SUCCESS REQUIRES AND', nudge: 0, weight: 'light' },
+      { text: 'PARTNER WITH YOU TO', nudge: 1.155, weight: 'light' },
+      { text: 'ACHIEVE IT.', nudge: 3.829, weight: 'regular', ember: true },
     ],
     bullets: ['Defining direction', 'Aligning leadership', 'Shaping teams over time'],
   },
+]
+
+// Parked: slide 3 came off the homepage "for now" and the client will confirm
+// which section it belongs in (feedback PDF p5). Kept verbatim so it can be
+// dropped back into `heroSlides`. (Slide 2 was restored at the client's request.)
+export const parkedHeroSlides: HeroSlide[] = [
   {
     id: 'origin',
     image: '/images/hero-3.webp',
     align: 'left',
     lines: [
-      { text: 'BORN FROM DESIGN,', nudge: 0 },
-      { text: 'BUILT FOR CREATIVE', nudge: 0, bold: true, ember: true },
-      { text: 'ORGANISATIONS.', nudge: 0, bold: true, ember: true },
+      { text: 'BORN FROM DESIGN,', nudge: 0, weight: 'light' },
+      { text: 'BUILT FOR CREATIVE', nudge: 0, weight: 'regular', ember: true },
+      { text: 'ORGANISATIONS.', nudge: 0, weight: 'regular', ember: true },
     ],
     caption: ['We understand how creative organisations operate', 'because we have helped build them from within.'],
   },
@@ -102,12 +133,16 @@ export const sectors = [
 ]
 
 // Home — "Two ways to work with HAELO"
+// `titleLines` fixes the desktop line break at two lines (feedback PDF p10);
+// the breaks match the original design. On mobile the lines run together and
+// wrap naturally.
 export const services = [
   {
     id: 'talent-advisory',
     eyebrow: 'Two ways to work with HAELO',
     kicker: 'Talent Advisory',
     title: 'Design the organisation your ambition requires.',
+    titleLines: ['Design the organisation', 'your ambition requires.'],
     body: 'For organisations defining future capability, team structures and leadership needs — we shape the teams before the roles are filled.',
     image: '/images/service-advisory.webp',
     to: '/talent-advisory',
@@ -118,6 +153,7 @@ export const services = [
     eyebrow: 'Two ways to work with HAELO',
     kicker: 'Talent Search',
     title: 'Find the people who move the needle.',
+    titleLines: ['Find the people who', 'move the needle.'],
     body: 'For organisations that know what they need — we identify and secure exceptional talent across design, hospitality, development and innovation.',
     image: '/images/service-talent.webp',
     to: '/talent-search',
@@ -126,13 +162,13 @@ export const services = [
 ]
 
 // ---- Talent Advisory page ---------------------------------------------------
+// Only these three were supplied by the client; the three that previously
+// followed (Organisation Reviews, Hiring Frameworks, Creative Capability
+// Planning) were not theirs and were removed — feedback PDF p15.
 export const advisoryServices = [
   { title: 'Team Design', body: 'Shape the structure and composition of your team to drive future growth.' },
   { title: 'Leadership Planning', body: 'Identify and plan for the leadership roles that will define your organisation’s trajectory.' },
   { title: 'Talent Mapping', body: 'Assess internal and external talent to align with your strategic objectives.' },
-  { title: 'Organisation Reviews', body: 'Evaluate current structures and processes to ensure alignment with your goals.' },
-  { title: 'Hiring Frameworks', body: 'Develop robust hiring strategies for consistency and lasting impact.' },
-  { title: 'Creative Capability Planning', body: 'Design the skillsets and creative strengths your organisation needs next.' },
 ]
 
 // ---- Talent Search page -----------------------------------------------------

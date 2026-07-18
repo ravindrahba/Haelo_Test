@@ -1,10 +1,11 @@
-import { useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { motion, useReducedMotion, type Variants } from 'framer-motion'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { EffectFade, Autoplay } from 'swiper/modules'
 import type { Swiper as SwiperClass } from 'swiper'
 import { ArrowDown } from 'lucide-react'
 import { heroSlides } from '@/data/site'
+import { isRevealed, onRevealed } from '@/lib/reveal'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 
@@ -12,11 +13,30 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1]
 const RING_R = 13.5
 const RING_C = 2 * Math.PI * RING_R
 
+// Headline size for a slide: `px` is the design's size on a 1920 canvas, so the
+// `vw` term (px/19.2) reproduces it exactly at 1920 and the rem cap holds it
+// there on wider screens. Mobile floor stays at 1.75rem for every slide.
+function heroFont(px: number): string {
+  return `clamp(1.75rem, ${(px / 19.2).toFixed(4)}vw, ${(px / 16).toFixed(4)}rem)`
+}
+
 export function Hero() {
   const reduce = useReducedMotion() ?? false
   const [active, setActive] = useState(0)
   const swiperRef = useRef<SwiperClass | null>(null)
   const ringRef = useRef<SVGCircleElement | null>(null)
+  const multi = heroSlides.length > 1
+
+  // Slide 1 must get its FULL autoplay window on screen. Swiper's timer starts
+  // at mount — under the preloader — so without this hold, the first slide's
+  // time was part-spent before the curtain lifted (it only ran full-length
+  // from the second loop). Autoplay is stopped at init and started the moment
+  // the preloader has fully dissolved.
+  useEffect(() => {
+    return onRevealed(() => {
+      swiperRef.current?.autoplay?.start()
+    })
+  }, [])
 
   const wordVariants: Variants = reduce
     ? { hide: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0.01 } } }
@@ -39,12 +59,15 @@ export function Hero() {
         effect="fade"
         fadeEffect={{ crossFade: true }}
         speed={1600}
-        rewind
-        autoplay={{ delay: 6000, disableOnInteraction: false }}
-        allowTouchMove
+        rewind={multi}
+        autoplay={multi ? { delay: 6000, disableOnInteraction: false } : false}
+        allowTouchMove={multi}
         className="h-[100svh] w-full"
         onSwiper={(s) => {
           swiperRef.current = s
+          // Hold the timer while the preloader still covers the hero; the
+          // onRevealed subscription above starts it once the site is visible.
+          if (!isRevealed()) s.autoplay?.stop()
         }}
         onSlideChange={(s) => setActive(s.realIndex)}
         onAutoplayTimeLeft={(_s, _time, progress) => {
@@ -63,7 +86,10 @@ export function Hero() {
                 <motion.img
                   src={slide.image}
                   alt=""
-                  className="h-full w-full object-cover"
+                  // Portrait crop keeps the subject's face in frame on mobile;
+                  // desktop shows the full 16:9 and stays centred.
+                  className="h-full w-full object-cover [object-position:var(--focus)] md:[object-position:50%_50%]"
+                  style={{ '--focus': slide.focusMobile ?? '50% 50%' } as CSSProperties}
                   draggable={false}
                   initial={{ scale: reduce ? 1 : 1.05, x: '0%', y: '0%' }}
                   animate={{
@@ -73,20 +99,33 @@ export function Hero() {
                   }}
                   transition={{ duration: 11, ease: 'linear' }}
                 />
-                {/* Scrim — desktop: teal at half strength weighted to the text side */}
-                <div className={`absolute inset-0 hidden md:block ${alignRight ? 'bg-gradient-to-l' : 'bg-gradient-to-r'} from-teal/55 via-teal/18 to-transparent`} />
-                {/* Mobile: gentle overall darkening so centred type stays legible */}
+                {/* No scrim on desktop — the original design lays the copy straight
+                    onto the photograph (feedback PDF p3: "remove the gradient and
+                    use the original colors throughout").
+                    Mobile keeps a flat tint: the type centres over the busiest part
+                    of the frame there and is otherwise unreadable. */}
                 <div className="absolute inset-0 bg-teal/35 md:hidden" />
-                <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-teal/40 to-transparent" />
-                <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-teal/30 to-transparent" />
               </div>
 
               {/* Content */}
               <div className="relative z-10 flex min-h-[100svh] items-center">
                 <div className="container-edge w-full">
-                  <div className={`mx-auto flex w-full max-w-[1600px] pt-16 justify-center ${alignRight ? 'md:justify-end' : 'md:justify-start'}`}>
-                    <div className={`text-center ${alignRight ? 'md:text-right' : 'md:text-left'}`}>
-                      <h1 className="font-display uppercase leading-[1.12] tracking-tight text-[clamp(1.75rem,6.5vw,4.2rem)]">
+                  <div className={`mx-auto flex w-full max-w-[1600px] justify-center ${alignRight ? 'md:justify-end' : 'md:justify-start'}`}>
+                    {/* Desktop offsets reconcile our 1600px container gutter with the
+                        design's: at a 1920 canvas the original sits 13.6px further
+                        out and 52px above centre. */}
+                    <div
+                      className={`text-center md:-translate-y-[52px] ${
+                        alignRight ? 'md:text-right md:translate-x-[13.6px]' : 'md:text-left md:-translate-x-[13.6px]'
+                      }`}
+                      style={{ '--hl': heroFont(slide.sizePx ?? 94.36) } as CSSProperties}
+                    >
+                      {/* Size + leading are per-slide, measured from each original
+                          hero (slide 1 = 94.36/0.771, slide 2 = 82/0.846). */}
+                      <h1
+                        className="font-display uppercase tracking-normal"
+                        style={{ fontSize: heroFont(slide.sizePx ?? 94.36), lineHeight: slide.lh ?? 0.771 }}
+                      >
                         {slide.lines.map((line, li) => {
                           const words = line.text.split(' ')
                           return (
@@ -104,8 +143,8 @@ export function Hero() {
                                     variants={wordVariants}
                                     initial="hide"
                                     animate={isActive ? 'show' : 'hide'}
-                                    className={`inline-block will-change-transform ${line.ember ? 'text-sheen-ember' : 'text-sheen-mist'} ${
-                                      line.bold ? 'font-medium' : 'font-extralight'
+                                    className={`inline-block will-change-transform ${line.ember ? 'text-[#F1AE6F]' : 'text-[#E9E2D3]'} ${
+                                      line.weight === 'regular' ? 'font-normal' : 'font-light'
                                     }`}
                                   >
                                     {wi < words.length - 1 ? `${w} ` : w}
@@ -123,9 +162,7 @@ export function Hero() {
                           variants={softVariants}
                           initial="hide"
                           animate={isActive ? 'show' : 'hide'}
-                          className={`mx-auto mt-6 max-w-md text-center font-sans text-base font-light leading-relaxed tracking-[0.045em] text-mist md:mt-8 md:max-w-none md:text-lg ${
-                            alignRight ? 'md:ml-auto' : ''
-                          }`}
+                          className="mx-auto mt-6 max-w-md text-center font-sans font-light tracking-[0.045em] text-[#EBE2D0] leading-relaxed md:mt-8 md:max-w-none md:text-center md:leading-[1.2] md:text-[clamp(1rem,1.612vw,1.9344rem)]"
                         >
                           {slide.caption.map((c, ci) => (
                             <span key={ci} className="inline md:block">
@@ -136,22 +173,24 @@ export function Hero() {
                       )}
 
                       {slide.bullets && (
-                        <motion.ul
+                        <motion.div
                           custom={0.35 + wordCounter * 0.06}
                           variants={softVariants}
                           initial="hide"
                           animate={isActive ? 'show' : 'hide'}
-                          className="mx-auto mt-7 w-fit space-y-3 text-left md:mt-9"
+                          className={`mt-7 flex w-fit items-center gap-4 md:mt-9 md:gap-5 ${
+                            alignRight ? 'mx-auto md:ml-auto md:mr-0' : 'mx-auto md:mr-auto md:ml-[calc(var(--hl)*4.8)]'
+                          }`}
                         >
-                          {slide.bullets.map((b, bi) => (
-                            <li key={bi} className="flex items-center gap-3 font-sans text-sm font-light text-mist md:text-base">
-                              <svg viewBox="0 0 12 12" className="h-3 w-3 flex-none text-ember" fill="none" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
-                                <path d="M2 6.5 4.6 9 10 3.5" strokeLinecap="round" strokeLinejoin="round" />
-                              </svg>
-                              <span>{b}</span>
-                            </li>
-                          ))}
-                        </motion.ul>
+                          {/* Single ember dash marker to the left of the block, as
+                              in the original design (not a per-item checkmark). */}
+                          <span className="h-px w-8 shrink-0 bg-ember md:w-10" aria-hidden="true" />
+                          <ul className="space-y-1 text-left font-sans text-sm font-light leading-relaxed tracking-[0.045em] text-[#EBE2D0] md:text-base">
+                            {slide.bullets.map((b, bi) => (
+                              <li key={bi}>{b}</li>
+                            ))}
+                          </ul>
+                        </motion.div>
                       )}
                     </div>
                   </div>
@@ -181,7 +220,11 @@ export function Hero() {
               <ArrowDown className="h-4 w-4 text-ember" strokeWidth={1.5} aria-hidden="true" />
             </div>
 
-            <div role="tablist" aria-label="Hero slides" className="pointer-events-auto absolute inset-x-0 bottom-0 flex items-center justify-center gap-4">
+            <div
+              role="tablist"
+              aria-label="Hero slides"
+              className={`pointer-events-auto absolute inset-x-0 bottom-0 items-center justify-center gap-4 ${multi ? 'flex' : 'hidden'}`}
+            >
               {heroSlides.map((s, i) => {
                 const isActive = i === active
                 return (

@@ -49,7 +49,7 @@ export default function Contact() {
           {/* Details */}
           <div>
             <Reveal>
-              <Eyebrow tick>{site.contact.company}</Eyebrow>
+              <Eyebrow>{site.contact.company}</Eyebrow>
             </Reveal>
             <Reveal delay={0.05}>
               <ul className="mt-10 space-y-8">

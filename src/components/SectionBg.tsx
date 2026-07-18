@@ -1,4 +1,4 @@
-import { useRef, type ReactNode } from 'react'
+import { useRef, useState, type ReactNode } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 
 export interface SectionBgProps {
@@ -6,8 +6,12 @@ export interface SectionBgProps {
   /** Optional responsive candidates for the <img>. */
   srcSet?: string
   alt?: string
-  /** Legibility scrim over the image. */
-  overlay?: 'teal' | 'dark' | 'light' | 'none'
+  /**
+   * Legibility scrim over the image. 'teal' and 'dark' are directional gradients
+   * that suit copy set to one side; 'teal-flat' is an even veil for copy centred
+   * over a bright frame.
+   */
+  overlay?: 'teal' | 'teal-flat' | 'dark' | 'light' | 'none'
   /** Scales overlay opacity. */
   intensity?: 'soft' | 'strong'
   /** Applied to the relatively-positioned container (size it here). */
@@ -23,6 +27,10 @@ const OVERLAY_CLASSES: Record<OverlayVariant, Record<Intensity, string>> = {
   teal: {
     soft: 'bg-gradient-to-tr from-teal/70 via-teal/30 to-transparent',
     strong: 'bg-gradient-to-tr from-teal/85 via-teal/50 to-teal/10',
+  },
+  'teal-flat': {
+    soft: 'bg-teal/45',
+    strong: 'bg-teal/65',
   },
   dark: {
     soft: 'bg-gradient-to-tr from-black/70 via-black/40 to-black/10',
@@ -41,6 +49,9 @@ function cx(...classes: Array<string | false | undefined>): string {
 export function SectionBg({ src, srcSet, alt = '', overlay = 'teal', intensity = 'soft', className, children, rounded = false }: SectionBgProps) {
   const ref = useRef<HTMLDivElement>(null)
   const prefersReducedMotion = useReducedMotion()
+  // Lazy images used to pop in mid-scroll; hold at opacity 0 until decoded,
+  // then fade. `complete` in the ref callback covers the already-cached case.
+  const [loaded, setLoaded] = useState(false)
 
   // Progress is 0 when the section's top meets the viewport bottom, 1 when its
   // bottom meets the viewport top — motion is tied directly to scroll, so it is
@@ -61,9 +72,17 @@ export function SectionBg({ src, srcSet, alt = '', overlay = 'teal', intensity =
             srcSet={srcSet}
             sizes={srcSet ? '100vw' : undefined}
             alt={alt}
-            loading="lazy"
+            // Eager: fetch at page mount so imagery is already in place when
+            // the user scrolls to it (lazy loading read as popping in).
             draggable={false}
-            className="h-full w-full object-cover object-center select-none"
+            onLoad={() => setLoaded(true)}
+            ref={(el) => {
+              if (el && el.complete && el.naturalWidth > 0) setLoaded(true)
+            }}
+            className={cx(
+              'h-full w-full object-cover object-center select-none transition-opacity duration-[900ms] ease-out',
+              loaded ? 'opacity-100' : 'opacity-0',
+            )}
           />
         </motion.div>
         {overlay !== 'none' && <div aria-hidden="true" className={cx('pointer-events-none absolute inset-0', OVERLAY_CLASSES[overlay][intensity])} />}

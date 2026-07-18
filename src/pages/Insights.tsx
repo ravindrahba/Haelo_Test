@@ -1,11 +1,10 @@
 import { PageHeader } from '@/components/PageHeader'
 import { AnimatedText } from '@/components/AnimatedText'
 import { Eyebrow } from '@/components/Eyebrow'
-import { Reveal, RevealGroup } from '@/components/Reveal'
+import { Reveal } from '@/components/Reveal'
 import { TextLink } from '@/components/TextLink'
-import { WorldMap } from '@/components/WorldMap'
 import { SectionBg } from '@/components/SectionBg'
-import { stats, founder } from '@/data/site'
+import { founder } from '@/data/site'
 
 export default function Insights() {
   return (
@@ -24,7 +23,7 @@ export default function Insights() {
           <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-4">
               <Reveal>
-                <Eyebrow tick>Our story</Eyebrow>
+                <Eyebrow>Our story</Eyebrow>
               </Reveal>
             </div>
             <div className="lg:col-span-8">
@@ -41,41 +40,9 @@ export default function Insights() {
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="mesh-teal bg-teal text-mist section-y">
-        <div className="container-edge mx-auto max-w-[1600px]">
-          <AnimatedText text="Our impact, by the numbers." as="h2" by="word" className="text-display text-mist" />
-          <RevealGroup className="mt-16 grid grid-cols-2 gap-x-8 gap-y-14 md:mt-20 lg:grid-cols-4">
-            {stats.map((stat) => (
-              <Reveal key={stat.label} className="border-t border-mist/15 pt-6 md:pt-8">
-                <p className="text-hero leading-none text-ember">{stat.value}</p>
-                <p className="mt-4 text-sm font-light uppercase tracking-caps text-mist/70">{stat.label}</p>
-              </Reveal>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
-
-      {/* Global Network */}
-      <section className="bg-mist section-y">
-        <div className="container-edge mx-auto max-w-[1600px]">
-          <div className="max-w-3xl">
-            <Reveal>
-              <Eyebrow tick>Our global network</Eyebrow>
-            </Reveal>
-            <AnimatedText text="Talent moves across borders." as="h2" by="word" className="text-display text-ink" />
-            <Reveal delay={0.2}>
-              <p className="mt-8 text-lg font-light leading-relaxed text-muted">
-                From Singapore to London, Dubai to Los Angeles — our network spans the studios, brands and cities where hospitality design
-                is imagined and made.
-              </p>
-            </Reveal>
-          </div>
-          <Reveal delay={0.3} className="mt-14 md:mt-20">
-            <WorldMap className="w-full" />
-          </Reveal>
-        </div>
-      </section>
+      {/* The stats band and the global-network map that sat here have moved to
+          the About page (feedback PDF p39, p40). This page is itself hidden from
+          the menu for now (p42). */}
 
       {/* Testimonial */}
       <section className="bg-mist-200 section-y">
@@ -87,12 +54,12 @@ export default function Insights() {
               alt="Doris Li, Founder of HAELO"
               overlay="none"
               rounded
-              className="aspect-[4/5] shadow-[0_40px_80px_-30px_rgba(31,46,50,0.45)]"
+              className="aspect-[4/5]"
             />
           </Reveal>
           <div>
             <Reveal>
-              <Eyebrow tick>A word from our founder</Eyebrow>
+              <Eyebrow>A word from our founder</Eyebrow>
             </Reveal>
             <blockquote className="mt-8">
               <AnimatedText text={`“${founder.quote}”`} as="p" by="line" className="text-2xl leading-snug text-ink sm:text-3xl" />

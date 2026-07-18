@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+﻿import { motion } from 'framer-motion'
 import { Eyebrow } from './Eyebrow'
 import { AnimatedText } from './AnimatedText'
 import { SectionBg } from './SectionBg'
@@ -6,27 +6,32 @@ import { SectionBg } from './SectionBg'
 type Props = {
   eyebrow: string
   title: string
-  intro?: string
+  /** A string, or several paragraphs when the client has specified where the
+      copy should break (e.g. feedback PDF p14: "start the second line on HAELO"). */
+  intro?: string | string[]
   image?: string
 }
 
 /** Dark teal interior-page hero: smooth parallax image + alive word-reveal title. */
 export function PageHeader({ eyebrow, title, intro, image }: Props) {
+  const paragraphs = intro === undefined ? [] : Array.isArray(intro) ? intro : [intro]
   const inner = (
     <div className="container-edge relative mx-auto max-w-[1600px] pb-20 pt-40 sm:pb-28 sm:pt-48">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}>
-        <Eyebrow tick>{eyebrow}</Eyebrow>
+        <Eyebrow>{eyebrow}</Eyebrow>
       </motion.div>
       <AnimatedText as="h1" by="word" text={title} className="mt-6 max-w-4xl text-display" delay={0.15} />
-      {intro && (
-        <motion.p
-          className="mt-8 max-w-2xl text-lg text-mist/75"
+      {paragraphs.length > 0 && (
+        <motion.div
+          className="mt-8 max-w-2xl space-y-4 text-lg text-mist/75"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.5 }}
         >
-          {intro}
-        </motion.p>
+          {paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </motion.div>
       )}
     </div>
   )

@@ -1,4 +1,4 @@
-import { PageHeader } from '@/components/PageHeader'
+﻿import { PageHeader } from '@/components/PageHeader'
 import { AnimatedText } from '@/components/AnimatedText'
 import { Eyebrow } from '@/components/Eyebrow'
 import { Reveal, RevealGroup } from '@/components/Reveal'
@@ -9,47 +9,44 @@ import { advisoryServices } from '@/data/site'
 export default function TalentAdvisory() {
   return (
     <main>
-      {/* Hero */}
+      {/* Hero — client's original copy restored, broken so the second line
+          starts on HAELO (feedback PDF p14). */}
       <PageHeader
         eyebrow="Talent Advisory"
-        title="Designing teams before hiring them."
-        intro="The right hire starts with understanding what success requires. HAELO works with founders, CEOs and leadership teams to define the capabilities and leadership needed to support future growth."
+        title="Designing teams before hiring."
+        intro={[
+          'The right hire starts with understanding what success requires.',
+          'HAELO works with founders, CEOs and leadership teams to define the capabilities, structures and leadership needed to support future growth.',
+        ]}
         image="/images/service-advisory.webp"
       />
 
-      {/* What we do */}
+      {/* Talent Advisory — headline sits directly beneath the section title,
+          left-aligned and 25% down from the hero scale; body copy up 25%
+          (feedback PDF p15, p16). */}
       <section className="bg-mist section-y">
         <div className="container-edge mx-auto max-w-[1600px]">
-          <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
-            <div className="lg:col-span-4">
-              <Reveal>
-                <Eyebrow tick>What we do</Eyebrow>
-              </Reveal>
-            </div>
-            <div className="lg:col-span-8">
-              <AnimatedText
-                as="h2"
-                by="word"
-                text="Building capability, not simply filling roles."
-                className="max-w-[20ch] text-display text-ink"
-              />
-              <Reveal delay={0.2} className="mt-8 max-w-xl">
-                <p className="text-base font-light leading-relaxed text-muted md:text-lg">
-                  Before a search begins, the shape of the team must be right. We advise on structure, leadership and capability — so
-                  every hire strengthens the whole.
-                </p>
-              </Reveal>
-            </div>
+          <div>
+            <Reveal>
+              <Eyebrow>Talent Advisory</Eyebrow>
+            </Reveal>
+            <AnimatedText as="h2" by="word" text="Building capability" className="mt-6 max-w-[20ch] text-display-sm text-ink" />
+            <Reveal delay={0.2} className="mt-8 max-w-2xl">
+              <p className="text-[1.25rem] font-light leading-relaxed text-muted md:text-[1.40625rem]">
+                We help you define the teams, structures and capabilities that will drive your future.
+              </p>
+            </Reveal>
           </div>
 
+          {/* Card headline + body up 20%, proportions held (feedback PDF p16). */}
           <RevealGroup className="mt-20 grid gap-x-12 gap-y-16 sm:grid-cols-2 lg:mt-28 lg:grid-cols-3 lg:gap-x-16" stagger={0.08}>
             {advisoryServices.map((service, index) => (
               <Reveal key={service.title}>
                 <article className="flex h-full flex-col">
                   <div className="h-px w-full bg-mist-300" aria-hidden="true" />
-                  <span className="mt-6 block text-sm font-light tracking-caps text-ember">{String(index + 1).padStart(2, '0')}</span>
-                  <h3 className="mt-4 text-xl text-ink md:text-2xl">{service.title}</h3>
-                  <p className="mt-4 text-sm font-light leading-relaxed text-muted md:text-base">{service.body}</p>
+                  <span className="mt-6 block text-sm font-medium tracking-caps text-ember">{String(index + 1).padStart(2, '0')}</span>
+                  <h3 className="mt-4 text-[1.5rem] text-ink md:text-[1.8rem]">{service.title}</h3>
+                  <p className="mt-4 text-[1.05rem] font-light leading-relaxed text-muted md:text-[1.2rem]">{service.body}</p>
                 </article>
               </Reveal>
             ))}
@@ -57,19 +54,19 @@ export default function TalentAdvisory() {
         </div>
       </section>
 
-      {/* Closing CTA */}
-      <SectionBg src="/images/hospitality-lobby.webp" alt="A calm, softly lit hotel lobby" overlay="teal" intensity="strong">
+      {/* Closing CTA — client's own image and copy (feedback PDF p17, p18). */}
+      <SectionBg src="/images/ta-nextsteps.webp" alt="Two advisors in conversation" overlay="teal-flat" intensity="strong">
         <div className="section-y">
           <div className="container-edge mx-auto max-w-[1600px]">
             <div className="mx-auto max-w-4xl py-12 text-center md:py-20">
               <Reveal>
-                <Eyebrow tick>Next steps</Eyebrow>
+                <Eyebrow>We partner with you</Eyebrow>
               </Reveal>
               <AnimatedText
                 as="h2"
                 by="word"
                 delay={0.15}
-                text="Whether you’re preparing for growth, restructuring a team or building new capability — HAELO can help define what comes next."
+                text="Whether you’re preparing for growth, restructuring a team or building new capability, HAELO can help define what comes next."
                 className="mt-8 text-hero leading-tight text-mist"
               />
               <Reveal delay={0.35} className="mt-12 flex justify-center">

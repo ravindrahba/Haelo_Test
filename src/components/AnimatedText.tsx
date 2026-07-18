@@ -27,7 +27,7 @@ const DEFAULT_STAGGER: Record<NonNullable<AnimatedTextProps['by']>, number> = {
 
 const unitVariants: Variants = {
   hidden: { y: '0.4em', opacity: 0 },
-  visible: { y: 0, opacity: 1, transition: { duration: 0.8, ease: EASE } },
+  visible: { y: 0, opacity: 1, transition: { duration: 1.1, ease: EASE } },
 }
 
 const motionTags = {
@@ -68,7 +68,9 @@ export function AnimatedText({ text, as = 'h2', by = 'word', className, delay = 
   const MotionTag = motionTags[as] as typeof motion.span
 
   return (
-    <MotionTag className={className} variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once, margin: '-10%' }}>
+    // Same zero-inset trigger as <Reveal>: start the moment the element enters
+    // the viewport, so headlines never pop in after their section.
+    <MotionTag className={className} variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once }}>
       {by === 'line' &&
         lines.map((line, li) => (
           <motion.span key={`${line}-${li}`} className="block will-change-transform" variants={unitVariants}>

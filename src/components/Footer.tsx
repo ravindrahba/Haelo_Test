@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { site, nav } from '@/data/site'
 import { Eyebrow } from './Eyebrow'
 import { Reveal } from './Reveal'
-import { Curve } from './Curve'
 import { HbaLogo } from './HbaLogo'
 
 /* Brand glyphs — lucide dropped its brand icons, so we inline these. */
@@ -28,33 +27,43 @@ function InstagramIcon({ className }: { className?: string }) {
   )
 }
 
-export function Footer() {
-  return (
-    <footer className="relative mesh-teal text-mist">
-      <Curve fill="var(--color-teal)" className="-mt-px" />
+// Pages that close with a call to action of their own. Repeating the footer's
+// "Let's build what comes next." straight underneath reads as a duplicate, so
+// it is suppressed there (feedback PDF p26).
+const PAGES_WITH_OWN_CTA = ['/talent-search']
 
-      <div className="container-edge mx-auto max-w-[1600px] pb-16 pt-8">
-        {/* Big CTA */}
-        <Reveal>
-          <div className="border-b border-mist/15 pb-16">
-            <Eyebrow tick>Contact us</Eyebrow>
-            <h2 className="mt-6 max-w-4xl text-4xl sm:text-6xl">
-              Let&rsquo;s build <span className="text-ember">what comes next.</span>
-            </h2>
-            <Link
-              to="/contact"
-              className="group mt-10 inline-flex items-center gap-4 rounded-full border border-mist/25 px-7 py-4 text-sm font-semibold uppercase tracking-eyebrow transition-colors hover:border-ember hover:text-ember"
-            >
-              Start a conversation
-              <span className="h-px w-8 bg-current transition-all duration-500 group-hover:w-12" />
-            </Link>
-          </div>
-        </Reveal>
+export function Footer() {
+  const { pathname } = useLocation()
+  const showCta = !PAGES_WITH_OWN_CTA.includes(pathname)
+
+  return (
+    // Single solid corporate blue — the mesh highlight and the curved divider
+    // that sat above it are both gone (feedback PDF p11).
+    <footer className="relative bg-teal text-mist">
+      <div className="container-edge mx-auto max-w-[1600px] pb-16 pt-20">
+        {showCta && (
+          <Reveal>
+            <div className="border-b border-mist/15 pb-16">
+              <Eyebrow>Contact us</Eyebrow>
+              <h2 className="mt-6 max-w-4xl text-4xl sm:text-6xl">
+                Let&rsquo;s build <span className="text-ember">what comes next.</span>
+              </h2>
+              <Link
+                to="/contact"
+                className="group mt-10 inline-flex items-center gap-4 rounded-full border border-mist/25 px-7 py-4 text-sm font-semibold uppercase tracking-eyebrow transition-colors hover:border-ember hover:text-ember"
+              >
+                Start a conversation
+                <span className="h-px w-8 bg-current transition-all duration-500 group-hover:w-12" />
+              </Link>
+            </div>
+          </Reveal>
+        )}
 
         <div className="grid gap-12 pt-14 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <img src="/brand/logo-white.png" alt="HAELO by HBA" className="h-12 w-auto" draggable={false} />
-            <p className="mt-6 max-w-sm font-light text-mist/70">{site.tagline}</p>
+            {/* Tagline removed at the client's request (feedback PDF p11) — the
+                same line already carries the Why HAELO section on the homepage. */}
             <div className="mt-8 flex items-center gap-3">
               <span className="text-[0.65rem] uppercase tracking-eyebrow text-mist/45">A part of</span>
               <HbaLogo light className="h-5" />

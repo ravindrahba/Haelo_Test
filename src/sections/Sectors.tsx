@@ -1,4 +1,4 @@
-import { Hotel, Building2, Compass, Cpu, type LucideIcon } from 'lucide-react'
+﻿import { Hotel, Building2, Compass, Cpu, type LucideIcon } from 'lucide-react'
 import { sectors } from '@/data/site'
 import { Eyebrow } from '@/components/Eyebrow'
 import { Reveal, RevealGroup } from '@/components/Reveal'
@@ -17,21 +17,16 @@ export function Sectors({ withHeader = true }: { withHeader?: boolean }) {
     <section className="section-y bg-mist">
       <div className="container-edge mx-auto max-w-[1600px]">
         {withHeader && (
-          <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
-            <div>
-              <Reveal>
-                <Eyebrow tick>Built for the design economy</Eyebrow>
-              </Reveal>
-              <AnimatedText
-                as="h2"
-                by="word"
-                text={"We work with the world's leading design firms, developers and hospitality brands to build exceptional teams."}
-                className="mt-6 max-w-3xl text-3xl sm:text-5xl"
-              />
-            </div>
-            <Reveal delay={0.1}>
-              <TextLink to="/clients">Explore</TextLink>
+          <div>
+            <Reveal>
+              <Eyebrow>Built for the design economy</Eyebrow>
             </Reveal>
+            <AnimatedText
+              as="h2"
+              by="word"
+              text={"We work with the world's leading design firms, developers and hospitality brands to build exceptional teams."}
+              className="mt-6 max-w-3xl text-3xl sm:text-5xl"
+            />
           </div>
         )}
 
@@ -41,17 +36,25 @@ export function Sectors({ withHeader = true }: { withHeader?: boolean }) {
             return (
               <Reveal key={s.id} className="group bg-mist p-8 transition-colors duration-500 hover:bg-mist-200">
                 <Icon className="h-8 w-8 text-teal transition-colors duration-500 group-hover:text-ember" strokeWidth={1.4} />
-                <h3 className="mt-6 font-display text-xl text-teal">{s.title}</h3>
+                {/* One weight heavier than the body style (feedback PDF p9). */}
+                <h3 className="mt-6 font-display text-xl font-medium text-teal">{s.title}</h3>
                 <p className="mt-3 text-[0.95rem] text-muted">{s.body}</p>
               </Reveal>
             )
           })}
         </RevealGroup>
 
+        {/* The button now sits directly beneath this line rather than up in the
+            section header (feedback PDF p9). */}
         <Reveal>
           <p className="mt-14 max-w-2xl text-lg text-muted">
             We help identify the capabilities, leadership and talent required for long-term success.
           </p>
+          {withHeader && (
+            <div className="mt-8">
+              <TextLink to="/clients">Explore</TextLink>
+            </div>
+          )}
         </Reveal>
       </div>
     </section>

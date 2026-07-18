@@ -16,7 +16,7 @@ export function HospitalityBand() {
     >
       <div className="container-edge mx-auto w-full max-w-[1600px] py-28">
         <Reveal>
-          <Eyebrow tick>The HAELO difference</Eyebrow>
+          <Eyebrow>The HAELO difference</Eyebrow>
         </Reveal>
         <AnimatedText
           as="p"

@@ -1,4 +1,4 @@
-import { services } from '@/data/site'
+﻿import { services } from '@/data/site'
 import { Eyebrow } from '@/components/Eyebrow'
 import { Reveal } from '@/components/Reveal'
 import { TextLink } from '@/components/TextLink'
@@ -27,13 +27,21 @@ export function ServicesShowcase() {
 
             <div className={cn('flex flex-col justify-center px-8 py-16 sm:px-14 lg:px-20', imageLeft ? 'lg:order-2' : 'lg:order-1')}>
               <Reveal>
-                <Eyebrow tick>{svc.eyebrow}</Eyebrow>
+                <Eyebrow>{svc.eyebrow}</Eyebrow>
               </Reveal>
               <Reveal delay={0.05}>
                 <p className={cn('mt-6 text-sm uppercase tracking-caps', dark ? 'text-mist/60' : 'text-muted')}>{svc.kicker}</p>
               </Reveal>
+              {/* Two lines, not three (feedback PDF p10) — breaks come from the
+                  data so the count is guaranteed rather than left to wrapping. */}
               <Reveal delay={0.08}>
-                <h3 className="mt-3 max-w-md text-4xl sm:text-5xl">{svc.title}</h3>
+                <h3 className="mt-3 text-4xl sm:text-5xl">
+                  {svc.titleLines.map((line, li) => (
+                    <span key={li} className="inline lg:block">
+                      {line}{' '}
+                    </span>
+                  ))}
+                </h3>
               </Reveal>
               <Reveal delay={0.12}>
                 <p className={cn('mt-6 max-w-md text-lg', dark ? 'text-mist/70' : 'text-muted')}>{svc.body}</p>

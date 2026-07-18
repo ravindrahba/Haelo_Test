@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useSmoothScroll } from '@/lib/useSmoothScroll'
@@ -6,6 +5,7 @@ import { Nav } from '@/components/Nav'
 import { Footer } from '@/components/Footer'
 import { ScrollProgress } from '@/components/ScrollProgress'
 import { Preloader } from '@/components/Preloader'
+import { markRevealed } from '@/lib/reveal'
 import Home from '@/pages/Home'
 import TalentAdvisory from '@/pages/TalentAdvisory'
 import TalentSearch from '@/pages/TalentSearch'
@@ -14,31 +14,27 @@ import About from '@/pages/About'
 import Insights from '@/pages/Insights'
 import Contact from '@/pages/Contact'
 
-function ScrollToTop() {
-  const { pathname } = useLocation()
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'auto' })
-  }, [pathname])
-  return null
-}
-
 export default function App() {
   useSmoothScroll()
   const location = useLocation()
 
   return (
     <>
-      <Preloader />
+      <Preloader onComplete={markRevealed} />
       <ScrollProgress />
       <Nav />
-      <ScrollToTop />
-      <AnimatePresence mode="wait">
+      {/* Page transition: the outgoing page fades out exactly where the user is
+          — no scroll movement while anything is visible. The jump to the top
+          happens in onExitComplete, i.e. in the blank frame between the old
+          page unmounting and the new one fading in. (A scroll-on-pathname
+          effect used to fire while the old page was still on screen, which
+          read as a visible snap-to-top before the fade.) */}
+      <AnimatePresence mode="wait" onExitComplete={() => window.scrollTo({ top: 0, behavior: 'auto' })}>
         <motion.main
           key={location.pathname}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          animate={{ opacity: 1, transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] } }}
+          exit={{ opacity: 0, transition: { duration: 0.5, ease: 'easeInOut' } }}
         >
           <Routes location={location}>
             <Route path="/" element={<Home />} />

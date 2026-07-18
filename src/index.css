@@ -97,6 +97,11 @@
   .text-display { font-size: clamp(2.75rem, 6vw + 1rem, 6.5rem); line-height: 1.0; font-weight: 230; }
   .text-hero { font-size: clamp(2.5rem, 4.4vw + 1rem, 5rem); line-height: 1.04; font-weight: 230; }
 
+  /* text-display at 75%. The client asked for a clear step down between the
+     hero headline over the image and the headline inside a content block
+     (feedback PDF p16, p22, p23, p29, p36, p38). */
+  .text-display-sm { font-size: clamp(2.0625rem, 4.5vw + 0.75rem, 4.875rem); line-height: 1.05; font-weight: 230; }
+
   .section-y { padding-block: clamp(5rem, 10vw, 9rem); }
   .container-edge { padding-inline: clamp(1.25rem, 5vw, 5rem); }
 
@@ -116,21 +121,9 @@
       var(--color-teal);
   }
 
-  /* Premium display "sheen" — vertical gloss clipped to the headline text */
-  .text-sheen-mist {
-    background-image: linear-gradient(180deg, #ffffff 0%, var(--color-mist) 46%, rgba(248, 246, 242, 0.55) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-  }
-  .text-sheen-ember {
-    background-image: linear-gradient(180deg, #ffd7ac 0%, var(--color-ember) 52%, var(--color-ember-600) 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-  }
+  /* The hero copy overlay is laid out flat, in the original design's own colours
+     — no gloss, no gradient (feedback PDF p3). Values read directly from
+     Archive/HAELO Landing Page.pdf. */
 }
 
 @media (prefers-reduced-motion: reduce) {

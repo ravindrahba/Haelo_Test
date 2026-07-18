@@ -33,6 +33,64 @@ function whenFontsReady(): Promise<void> {
   return Promise.resolve()
 }
 
+// Imagery that must be ready before the curtain lifts, so nothing pops in as
+// the user starts scrolling. Failures resolve rather than reject — a missing
+// image must never hold the preloader (MAX_DISPLAY_MS caps it regardless).
+const PRELOAD_IMAGES = [
+  '/images/hero-1.webp',
+  '/images/hero-2.webp',
+  '/images/why-talent.webp',
+  '/images/why-business.webp',
+  '/images/origin.webp',
+  '/images/service-advisory.webp',
+  '/images/service-talent.webp',
+]
+
+function whenImagesReady(): Promise<void> {
+  return Promise.all(
+    PRELOAD_IMAGES.map(
+      (src) =>
+        new Promise<void>((resolve) => {
+          const img = new Image()
+          img.onload = () => {
+            void img
+              .decode()
+              .catch(() => undefined)
+              .then(() => resolve())
+          }
+          img.onerror = () => resolve()
+          img.src = src
+        }),
+    ),
+  ).then(() => undefined)
+}
+
+// The rest of the site's imagery, warmed in the background once the gate has
+// resolved — fire-and-forget, so it never delays the curtain. By the time the
+// user navigates to another page its images are already in cache and simply
+// sit in place.
+const WARM_IMAGES = [
+  '/images/ta-nextsteps.webp',
+  '/images/ts-cta.webp',
+  '/images/about-perspective.webp',
+  '/images/founder-doris.webp',
+  '/images/hospitality-lounge@1440.webp',
+  '/images/hospitality-lounge.webp',
+  '/images/team/doris.webp',
+  '/images/team/viola.webp',
+  '/images/team/emma.webp',
+  '/images/team/katherine.webp',
+  '/images/team/czarina.webp',
+  '/images/team/ema.webp',
+]
+
+function warmRemainingImages(): void {
+  WARM_IMAGES.forEach((src) => {
+    const img = new Image()
+    img.src = src
+  })
+}
+
 function whenWindowLoaded(): Promise<void> {
   if (document.readyState === 'complete') {
     return Promise.resolve()
@@ -75,7 +133,7 @@ export function Preloader({ onComplete }: { onComplete?: () => void }) {
       ease: EASE_CRAWL,
     })
 
-    const assetsReady = Promise.all([whenFontsReady(), whenWindowLoaded()]).then(() => undefined)
+    const assetsReady = Promise.all([whenFontsReady(), whenWindowLoaded(), whenImagesReady()]).then(() => undefined)
     const minDisplay = delay(reducedMotion ? MIN_DISPLAY_REDUCED_MS : MIN_DISPLAY_MS)
     const maxCap = delay(MAX_DISPLAY_MS)
 
@@ -83,6 +141,7 @@ export function Preloader({ onComplete }: { onComplete?: () => void }) {
 
     void gate.then(() => {
       if (cancelled) return
+      warmRemainingImages()
       crawl.stop()
       finish = animate(progress, 1, {
         duration: reducedMotion ? 0.2 : 0.55,

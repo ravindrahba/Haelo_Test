@@ -1,4 +1,4 @@
-import { Eyebrow } from '@/components/Eyebrow'
+﻿import { Eyebrow } from '@/components/Eyebrow'
 import { Reveal } from '@/components/Reveal'
 import { AnimatedText } from '@/components/AnimatedText'
 import { TextLink } from '@/components/TextLink'
@@ -11,7 +11,7 @@ export function GlobalReach() {
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.6fr] lg:items-center">
           <div>
             <Reveal>
-              <Eyebrow tick>Global Reach</Eyebrow>
+              <Eyebrow>Global Reach</Eyebrow>
             </Reveal>
             <AnimatedText as="h2" by="line" text={'Access talent\nwherever it exists.'} className="mt-6 text-4xl sm:text-6xl" />
             <Reveal delay={0.1}>
