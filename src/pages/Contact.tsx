@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { motion } from 'framer-motion'
-import { Phone, Mail, MapPin, Check } from 'lucide-react'
+import { Mail, MapPin, Check } from 'lucide-react'
 import { PageHeader } from '@/components/PageHeader'
 import { Reveal } from '@/components/Reveal'
 import { Eyebrow } from '@/components/Eyebrow'
@@ -53,20 +53,19 @@ export default function Contact() {
             </Reveal>
             <Reveal delay={0.05}>
               <ul className="mt-10 space-y-8">
-                <li className="flex gap-4">
-                  <MapPin className="mt-1 h-5 w-5 shrink-0 text-ember" />
-                  <div className="not-italic text-lg text-teal">
-                    {site.contact.address.map((l) => (
-                      <div key={l}>{l}</div>
-                    ))}
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <Phone className="mt-1 h-5 w-5 shrink-0 text-ember" />
-                  <a href={`tel:${site.contact.phone.replace(/\s/g, '')}`} className="text-lg text-teal link-underline">
-                    {site.contact.phone}
-                  </a>
-                </li>
+                {site.contact.offices.map((office) => (
+                  <li key={office.phone} className="flex gap-4">
+                    <MapPin className="mt-1 h-5 w-5 shrink-0 text-ember" />
+                    <div className="not-italic text-lg text-teal">
+                      {office.lines.map((l) => (
+                        <div key={l}>{l}</div>
+                      ))}
+                      <a href={`tel:${office.phone.replace(/[^+\d]/g, '')}`} className="mt-1 inline-block link-underline">
+                        {office.phone}
+                      </a>
+                    </div>
+                  </li>
+                ))}
                 <li className="flex gap-4">
                   <Mail className="mt-1 h-5 w-5 shrink-0 text-ember" />
                   <a href={`mailto:${site.contact.email}`} className="text-lg text-teal link-underline">

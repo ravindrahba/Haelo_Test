@@ -10,9 +10,14 @@ export const site = {
   contact: {
     // "KEEP JUST AS HAELO" (feedback PDF p41) — was "HAELO LIMITED".
     company: 'HAELO',
-    // New registered address (feedback PDF p11) — was the Quarry Bay, Hong Kong office.
-    address: ['HAELO PTE LTD.', '135 Cecil Street', 'Singapore'],
-    phone: '+65 4508 6028',
+    // Two offices, verbatim from the design team's 18 Jul note. NB the
+    // Singapore number is +65 6028 4508 (the earlier 4508 6028 was corrected).
+    offices: [
+      { lines: ['135 Cecil Street', 'Singapore'], phone: '+65 6028 4508' },
+      { lines: ['K11 Atelier, Level 27,', "Units 01 & 10-13, 728 King's Road", 'Hong Kong'], phone: '+852 2542 2022' },
+    ],
+    // Primary number shown where only one fits (nav overlay).
+    phone: '+65 6028 4508',
     email: 'info@haelopeople.com',
   },
 } as const

@@ -2,7 +2,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { site, nav } from '@/data/site'
 import { Eyebrow } from './Eyebrow'
 import { Reveal } from './Reveal'
-import { HbaLogo } from './HbaLogo'
 
 /* Brand glyphs — lucide dropped its brand icons, so we inline these. */
 function XIcon({ className }: { className?: string }) {
@@ -61,23 +60,26 @@ export function Footer() {
 
         <div className="grid gap-12 pt-14 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
+            {/* Tagline (feedback PDF p11) and the "A part of HBA" mark (design
+                team, 18 Jul) are both gone — the logo itself already reads
+                "HAELO by HBA". */}
             <img src="/brand/logo-white.png" alt="HAELO by HBA" className="h-12 w-auto" draggable={false} />
-            {/* Tagline removed at the client's request (feedback PDF p11) — the
-                same line already carries the Why HAELO section on the homepage. */}
-            <div className="mt-8 flex items-center gap-3">
-              <span className="text-[0.65rem] uppercase tracking-eyebrow text-mist/45">A part of</span>
-              <HbaLogo light className="h-5" />
-            </div>
           </div>
 
           <div>
             <p className="text-xs uppercase tracking-eyebrow text-ember">{site.contact.company}</p>
-            <address className="mt-4 space-y-1 not-italic text-mist/75">
-              {site.contact.address.map((line) => (
-                <div key={line}>{line}</div>
-              ))}
-              <div className="pt-3">T {site.contact.phone}</div>
-              <a href={`mailto:${site.contact.email}`} className="link-underline">
+            <address className="mt-4 not-italic text-mist/75">
+              <div className="space-y-6">
+                {site.contact.offices.map((office) => (
+                  <div key={office.phone} className="space-y-1">
+                    {office.lines.map((line) => (
+                      <div key={line}>{line}</div>
+                    ))}
+                    <div>T {office.phone}</div>
+                  </div>
+                ))}
+              </div>
+              <a href={`mailto:${site.contact.email}`} className="mt-6 inline-block link-underline">
                 {site.contact.email}
               </a>
             </address>
